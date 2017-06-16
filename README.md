@@ -1,5 +1,3 @@
-# Cognizant Intelligent Test Scripter
+# Coming Soon
 
 ![](images/logo.jpg)
-
-Coming Soon
