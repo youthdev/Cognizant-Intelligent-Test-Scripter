@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CITS Info</title>
+
+    <style>
+        .text-center {
+            text-align: center;
+        }
+    </style>
+    
+</head>
+
+<body>
+    <h1 class="text-center">Cognizant Intelligent Test Scripter - Download Status</h1>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var url = "https://api.github.com/repos/CognizantQAHub/Cognizant-Intelligent-Test-Scripter/releases";
+
+            $.getJSON(url)
+                .done(insertToHtml)
+                .fail(function () {
+                    console.log("error");
+                });
+
+            function insertToHtml(data) {
+                var items = [];
+                data.forEach(function (val) {
+                    items.push("<h3>" + val.assets[0].name + "</h3>");
+                    items.push("<p>" + val.assets[0].download_count + "</p>");
+                });
+                $("<div/>", {
+                    "class": "text-center",
+                    html: items.join("")
+                }).appendTo("body");
+            }
+
+        });
+    </script>
+</body>
+
+</html>
