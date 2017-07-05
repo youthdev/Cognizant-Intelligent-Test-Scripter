@@ -35,8 +35,10 @@
             function insertToHtml(data) {
                 var items = [];
                 data.forEach(function (val) {
+                    if(val.assets.length>0){
                     items.push("<h3>" + val.assets[0].name + "</h3>");
                     items.push("<p>" + val.assets[0].download_count + "</p>");
+                    }
                 });
                 $("<div/>", {
                     "class": "text-center",
