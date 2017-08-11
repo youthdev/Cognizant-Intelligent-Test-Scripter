@@ -24,13 +24,12 @@ import java.io.File;
  */
 public class WinScheduler extends SchedulerImpl {
 
-  private static  final String DELETE = "SCHTASKS /F /DELETE /TN \"<TASKNAME>\"",
+    private static final String DELETE = "SCHTASKS /F /DELETE /TN \"<TASKNAME>\"",
             QUERY = "SCHTASKS  /QUERY /TN \"<TASKNAME>\"",
             CHANGE = "SCHTASKS /CHANGE <VALUES> /TN \"<TASKNAME>\"",
             TRIGGER = "/SC ONCE /SD  <DATE> /ST <TIME>",
-            ACTION = "/TN \"<TASKNAME>\" /TR \"\\\"" + getScheduler() + "\\\" <ARGUMENT> \" ",
-            CREATE = "SCHTASKS  /CREATE  /F /IT ",
-            SCHEDULER = "Run.bat";
+            ACTION = "/TN \"<TASKNAME>\" /TR \"cmd.exe /c \\\"" + getBatLoc() + " <ARGUMENT> \\\"\" ",
+            CREATE = "SCHTASKS  /CREATE  /F /IT ";
 
     /**
      *
@@ -64,17 +63,18 @@ public class WinScheduler extends SchedulerImpl {
     @Override
     public boolean createTask(String taskName, String arg, String date, String time) {
         String createCMD = CREATE
-                + ACTION.replace("<TASKNAME>", taskName).replace("<ARGUMENT>", arg)
+                + ACTION.replace("<TASKNAME>", taskName)
+                        .replace("<ARGUMENT>", arg)
                 + TRIGGER.replace("<DATE>", date).replace("<TIME>", time);
         return addTask(createCMD);
     }
 
     /**
      *
-     * @return the scheduler location
+     * @return the bat location
      */
-   static String getScheduler() {
-        return System.getProperty("user.dir") + File.separator + SCHEDULER;
+    static String getBatLoc() {
+        return "\\\"" + System.getProperty("user.dir") + File.separator + "Run.bat" + "\\\"";
     }
 
 }
