@@ -59,7 +59,11 @@ public class ImageSpy extends javax.swing.JFrame {
      * @param sMainFrame
      */
     public ImageSpy(AppMainFrame sMainFrame) {
+        try{
         SikuliSettings.init();
+        }catch(Exception ex){
+          Logger.getLogger(ImageSpy.class.getName()).log(Level.SEVERE, null, ex);
+        }
         initComponents();
         this.sMainFrame = sMainFrame;
         layout = (CardLayout) cardPanel.getLayout();
