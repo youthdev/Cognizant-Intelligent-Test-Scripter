@@ -152,7 +152,7 @@ public class General extends Command {
     }
 
     private void resolveVars() {
-        Matcher matcher = INPUTS.matcher(Data);
+        Matcher matcher = INPUTS.matcher(Input);
         Set<String> listMatches = new HashSet<>();
         while (matcher.find()) {
             listMatches.add(matcher.group(1));
@@ -166,7 +166,8 @@ public class General extends Command {
                 replace = userData.getData(sheet[0], sheet[1]);
             }
             if (replace != null) {
-                Data = Data.replace("{" + s + "}", "'" + replace + "'");
+                Input = Input.replace("{" + s + "}", "'" + replace + "'");
+                Data = Input.substring(1);
             }
         });
     }
