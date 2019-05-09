@@ -96,7 +96,7 @@ Create the below folder structure if not present
 
 Windows :   
 ```
-%APPDATA%\Sikulix\SikulixTesseract\tessdata
+%APPDATA%\\Roaming\Sikulix\SikulixTesseract\tessdata
 ```
 
 Mac :
