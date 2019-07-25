@@ -32,3 +32,5 @@ Thumbs.db
 
 # other files
 recent.items
+.idea/
+*.iml
