@@ -34,3 +34,4 @@ Thumbs.db
 recent.items
 .idea/
 *.iml
+Engine/Configuration/chrome-emulators.json

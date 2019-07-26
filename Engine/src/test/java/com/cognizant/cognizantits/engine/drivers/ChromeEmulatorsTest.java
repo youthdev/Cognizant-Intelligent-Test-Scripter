@@ -74,7 +74,7 @@ public class ChromeEmulatorsTest {
     public void testGetEmulatorsList() {
         System.out.println("getEmulatorsList");
         List<String> result = ChromeEmulators.getEmulatorsList();
-        assertTrue(Stream.of("Nexus 5", "Galaxy S5", "Nexus 6P", "iPhone 5", "iPhone 6 Plus")
+        assertTrue(Stream.of("Nexus 5", "Galaxy S5", "Nexus 6P", "iPhone 5/SE", "iPhone 6/7/8 Plus")
                 .allMatch(result::contains), "Some/all emulators missing in the EmulatorsList"
         );
 

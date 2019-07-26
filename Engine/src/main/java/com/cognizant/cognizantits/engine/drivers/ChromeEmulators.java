@@ -54,6 +54,7 @@ public class ChromeEmulators {
     private static void saveList() {
         if (!EMULATORS.isEmpty()) {
             try {
+                new File(FilePath.getChromeEmulatorsFile()).getParentFile().mkdirs();
                 MAPPER.writeValue(new File(FilePath.getChromeEmulatorsFile()), EMULATORS);
             } catch (IOException ex) {
                 LOG.log(Level.SEVERE, null, ex);
