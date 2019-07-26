@@ -44,7 +44,7 @@ public class AndroidAdbCLI {
         procRunner = getAdbRunner(serial,
                 "devices");
         try {
-            retCode = procRunner.run(30000);
+            retCode = procRunner.run(60000);
             if (retCode != 0) {
                 throw new IOException(
                         "Non-zero return code from devices command\n"
@@ -80,7 +80,7 @@ public class AndroidAdbCLI {
         procRunner = getAdbRunner(serial,
                 "shell", "rm", "/sdcard/screenshot.png");
         try {
-            retCode = procRunner.run(30000);
+            retCode = procRunner.run(60000);
             if (retCode != 0) {
                 throw new IOException(
                         "Non-zero return code from \"rm\" screenshot command:\n"
@@ -93,7 +93,7 @@ public class AndroidAdbCLI {
         }
         procRunner = getAdbRunner(serial, "shell", "screencap", "-p", "/sdcard/screenshot.png");
         try {
-            retCode = procRunner.run(30000);
+            retCode = procRunner.run(60000);
             if (retCode != 0) {
                 throw new IOException("Non-zero return code from screenshot command:\n"
                         + procRunner.getOutputBlob());
@@ -105,7 +105,7 @@ public class AndroidAdbCLI {
         }
         procRunner = getAdbRunner(serial, "pull", "/sdcard/screenshot.png", screenshotfile.getAbsolutePath());
         try {
-            retCode = procRunner.run(30000);
+            retCode = procRunner.run(60000);
             if (retCode != 0) {
                 throw new IOException("Non-zero return code from pull command:\n" + procRunner.getOutputBlob());
             }
@@ -129,7 +129,7 @@ public class AndroidAdbCLI {
         procRunner = getAdbRunner(serial,
                 "shell", "rm", "/sdcard/uidump.xml");
         try {
-            retCode = procRunner.run(30000);
+            retCode = procRunner.run(60000);
             if (retCode != 0) {
                 throw new IOException(
                         "Non-zero return code from \"rm\" xml dump command:\n"
@@ -143,7 +143,7 @@ public class AndroidAdbCLI {
         procRunner = getAdbRunner(serial,
                 "shell", "/system/bin/uiautomator", "dump", "/sdcard/uidump.xml");
         try {
-            retCode = procRunner.run(30000);
+            retCode = procRunner.run(60000);
             if (retCode != 0) {
                 throw new IOException("Non-zero return code from dump command:\n"
                         + procRunner.getOutputBlob());
@@ -156,7 +156,7 @@ public class AndroidAdbCLI {
         procRunner = getAdbRunner(serial,
                 "pull", "/sdcard/uidump.xml", xmlDumpFile.getAbsolutePath());
         try {
-            retCode = procRunner.run(30000);
+            retCode = procRunner.run(60000);
             if (retCode != 0) {
                 throw new IOException("Non-zero return code from pull command:\n"
                         + procRunner.getOutputBlob());
@@ -173,7 +173,7 @@ public class AndroidAdbCLI {
         procRunner = getAdbRunner(serial,
                 "shell", "dumpsys", "activity", "activities");
         try {
-            retCode = procRunner.run(30000);
+            retCode = procRunner.run(60000);
             if (retCode != 0) {
                 throw new IOException(
                         "Non-zero return code from devices command\n"
@@ -261,7 +261,7 @@ public class AndroidAdbCLI {
                 Logger.getLogger(AndroidAdbCLI.class.getName()).log(Level.SEVERE, null, e);
             }
             if (t.isAlive()) {
-                throw new IOException("external process not terminating.");
+                throw new IOException("adb command is running out of time.");
             }
             try {
                 return p.waitFor();
