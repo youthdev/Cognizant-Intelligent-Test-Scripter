@@ -15,11 +15,7 @@
  */
 package com.cognizant.cognizantits.datalib.component.utils;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +87,7 @@ public class FileUtils {
 
     public static List<CSVRecord> getRecords(File file) {
         if (file.exists()) {
-            try (Reader in = new FileReader(file)) {
+            try (Reader in = new InputStreamReader(new FileInputStream(file), "UTF-8")) {
                 CSVParser parser = CSVFormat.EXCEL.withHeader().withSkipHeaderRecord().withIgnoreEmptyLines().parse(in);
                 if (!parser.getHeaderMap().isEmpty()) {
                     return parser.getRecords();
