@@ -19,7 +19,10 @@ import com.cognizant.cognizantits.datalib.component.TestStep.HEADERS;
 import com.cognizant.cognizantits.datalib.component.utils.FileUtils;
 import com.cognizant.cognizantits.datalib.component.utils.SaveListener;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -298,7 +301,7 @@ public class TestCase extends DataModel {
     public void save() {
         if (!isSaved()) {
             createIfNotExists();
-            try (FileWriter out = new FileWriter(new File(getLocation())); CSVPrinter printer = new CSVPrinter(out, CSVFormat.EXCEL.withIgnoreEmptyLines());) {
+            try (Writer out = new OutputStreamWriter(new FileOutputStream(new File(getLocation())), StandardCharsets.UTF_8); CSVPrinter printer = new CSVPrinter(out, CSVFormat.EXCEL.withIgnoreEmptyLines())) {
                 printer.printRecord(HEADERS.getValues());
                 removeEmptySteps();
                 autoNumber();
