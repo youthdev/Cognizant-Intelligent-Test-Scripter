@@ -25,16 +25,25 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SystemDefaults {
+    public static AtomicInteger defaultWaitTime = new AtomicInteger(30);
+    public static AtomicInteger defaultElementWaitTime = new AtomicInteger(30);
+    public static AtomicBoolean defaultStopExecution = new AtomicBoolean();
+    public static AtomicBoolean defaultPauseExecution = new AtomicBoolean(false);
+    public static AtomicBoolean defaultDebugMode = new AtomicBoolean();
+    public static AtomicBoolean defaultStopCurrentIteration = new AtomicBoolean();
+    public static AtomicBoolean defaultGetClassesFromJar = new AtomicBoolean();
+    public static AtomicBoolean defaultReportComplete = new AtomicBoolean();
+    public static AtomicBoolean defaultNextStepflag = new AtomicBoolean(true);
 
-    public static AtomicInteger waitTime = new AtomicInteger(10);
-    public static AtomicInteger elementWaitTime = new AtomicInteger(10);
-    public static AtomicBoolean stopExecution = new AtomicBoolean();
-    public static AtomicBoolean pauseExecution = new AtomicBoolean(false);
-    public static AtomicBoolean debugMode = new AtomicBoolean();
-    public static AtomicBoolean stopCurrentIteration = new AtomicBoolean();
-    public static AtomicBoolean getClassesFromJar = new AtomicBoolean();
-    public static AtomicBoolean reportComplete = new AtomicBoolean();
-    public static AtomicBoolean nextStepflag = new AtomicBoolean(true);
+    public static AtomicInteger waitTime = defaultWaitTime;
+    public static AtomicInteger elementWaitTime = defaultElementWaitTime;
+    public static AtomicBoolean stopExecution = defaultStopExecution;
+    public static AtomicBoolean pauseExecution = defaultPauseExecution;
+    public static AtomicBoolean debugMode = defaultDebugMode;
+    public static AtomicBoolean stopCurrentIteration = defaultStopCurrentIteration;
+    public static AtomicBoolean getClassesFromJar = defaultGetClassesFromJar;
+    public static AtomicBoolean reportComplete = defaultReportComplete;
+    public static AtomicBoolean nextStepflag = defaultNextStepflag;
     public static Map<String, String> CLVars = new HashMap<>();
     public static Map<String, String> EnvVars = new HashMap<>();
 
@@ -62,14 +71,14 @@ public class SystemDefaults {
     }
 
     public static void resetAll() {
-        waitTime = new AtomicInteger(10);
-        elementWaitTime = new AtomicInteger(10);
-        stopExecution = new AtomicBoolean();
-        debugMode = new AtomicBoolean();
-        stopCurrentIteration = new AtomicBoolean();
-        reportComplete = new AtomicBoolean();
-        nextStepflag = new AtomicBoolean(true);
-        pauseExecution = new AtomicBoolean(false);
+        waitTime = defaultWaitTime;
+        elementWaitTime = defaultElementWaitTime;
+        stopExecution = defaultStopExecution;
+        debugMode = defaultDebugMode;
+        stopCurrentIteration = defaultStopCurrentIteration;
+        reportComplete = defaultReportComplete;
+        nextStepflag = defaultNextStepflag;
+        pauseExecution = defaultPauseExecution;
     }
 
     public static boolean canLaunchSummary() {
