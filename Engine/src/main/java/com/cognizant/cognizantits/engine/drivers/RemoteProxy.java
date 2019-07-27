@@ -15,24 +15,14 @@
  */
 package com.cognizant.cognizantits.engine.drivers;
 
-import java.net.InetAddress;
-import java.net.URL;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.http.HttpHost;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.NTCredentials;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.openqa.selenium.remote.CommandInfo;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.http.HttpClient;
-import org.openqa.selenium.remote.internal.ApacheHttpClient;
 
 public class RemoteProxy {
 
@@ -46,7 +36,8 @@ public class RemoteProxy {
         String proxyUser = prop.getProperty("proxyUser");
         String proxyPassword = prop.getProperty("proxyPassword");
 
-        HttpClientBuilder builder = HttpClientBuilder.create();
+        //TODO: remove this code because we migrate to OkHttpClient to use new version of Selenium
+        /*HttpClientBuilder builder = HttpClientBuilder.create();
         HttpHost proxy = new HttpHost(proxyHost, proxyPort);
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
 
@@ -58,7 +49,10 @@ public class RemoteProxy {
         }
         builder.setProxy(proxy);
         builder.setDefaultCredentialsProvider(credsProvider);
-        HttpClient.Factory factory = new SimpleHttpClientFactory(builder);
+        HttpClient.Factory factory = new SimpleHttpClientFactory(builder);*/
+        HttpClient.Factory factory = HttpClient.Factory.createDefault();
+        HttpClient.Builder builder = factory.builder();
+        builder.proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort)));
         return new HttpCommandExecutor(new HashMap<String, CommandInfo>(), url, factory);
 
     }
@@ -91,19 +85,5 @@ public class RemoteProxy {
                 return "Unknown";
             }
         }
-    }
-}
-
-class SimpleHttpClientFactory implements HttpClient.Factory {
-
-    final HttpClientBuilder builder;
-
-    public SimpleHttpClientFactory(HttpClientBuilder builder) {
-        this.builder = builder;
-    }
-
-    @Override
-    public org.openqa.selenium.remote.http.HttpClient createClient(URL url) {
-        return new ApacheHttpClient(builder.build(), url);
     }
 }

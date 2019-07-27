@@ -20,7 +20,6 @@ import com.cognizant.cognizantits.engine.core.Control;
 import com.cognizant.cognizantits.engine.core.RunContext;
 import com.cognizant.cognizantits.engine.drivers.WebDriverFactory.Browser;
 import com.cognizant.cognizantits.engine.drivers.customWebDriver.EmptyDriver;
-import com.cognizant.cognizantits.engine.drivers.customWebDriver.ExtendedHtmlUnitDriver;
 import com.cognizant.cognizantits.engine.execution.exception.DriverClosedException;
 import com.cognizant.cognizantits.engine.execution.exception.UnCaughtException;
 import com.galenframework.config.GalenConfig;
@@ -157,8 +156,7 @@ public class SeleniumDriver {
                 if (alertPresent()) {
                     System.err.println("Couldn't take ScreenShot Alert Present in the page");
                     return ((TakesScreenshot) (new EmptyDriver())).getScreenshotAs(OutputType.FILE);
-                } else if (driver instanceof MobileDriver || driver instanceof ExtendedHtmlUnitDriver
-                        || driver instanceof EmptyDriver) {
+                } else if (driver instanceof MobileDriver || driver instanceof EmptyDriver) {
                     return ((TakesScreenshot) (driver)).getScreenshotAs(OutputType.FILE);
                 } else {
                     return createNewScreenshot();
@@ -221,9 +219,7 @@ public class SeleniumDriver {
             if (!runContext.Browser.equals((Browser.HtmlUnit))) {
                 String browser_version;
                 Capabilities cap;
-                if (driver instanceof ExtendedHtmlUnitDriver) {
-                    cap = ((ExtendedHtmlUnitDriver) driver).getCapabilities();
-                } else if (driver instanceof MobileDriver) {
+                if (driver instanceof MobileDriver) {
                     cap = ((RemoteWebDriver) driver).getCapabilities();
                     Object pV = cap.getCapability("platformVersion");
                     return pV == null ? "" : pV.toString();
@@ -268,9 +264,7 @@ public class SeleniumDriver {
 
         if (runContext.Platform.equals(Platform.ANY) || runContext.Platform.equals(Platform.getCurrent())) {
             Capabilities cap;
-            if (driver instanceof ExtendedHtmlUnitDriver) {
-                cap = ((ExtendedHtmlUnitDriver) driver).getCapabilities();
-            } else if (driver instanceof MobileDriver) {
+            if (driver instanceof MobileDriver) {
                 cap = ((RemoteWebDriver) driver).getCapabilities();
                 Object platf = cap.getCapability("platformName");
                 if (platf != null && !platf.toString().isEmpty()) {

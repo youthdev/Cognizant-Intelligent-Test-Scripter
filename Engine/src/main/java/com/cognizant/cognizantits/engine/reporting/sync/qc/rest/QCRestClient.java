@@ -29,7 +29,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
-import org.eclipse.jetty.http.HttpStatus;
 import org.json.simple.JSONObject;
 
 /**
@@ -88,7 +87,7 @@ public class QCRestClient {
             httpClient.COOKIES = (Header[]) loginRes.get("COOKIE");
             httpClient.COOKIES = (Header[]) loginRes.get("COOKIE");
             sessionRes = httpClient.post(this.getUrl(buildUrl(SESSION)), "");
-            if (sessionRes.get("status").equals(HttpStatus.CREATED_201)) {
+            if (sessionRes.get("status").equals(201)) {
                 DLogger.Log("session created");
                 httpClient.COOKIES = (Header[]) sessionRes.get("COOKIE");
             } else {

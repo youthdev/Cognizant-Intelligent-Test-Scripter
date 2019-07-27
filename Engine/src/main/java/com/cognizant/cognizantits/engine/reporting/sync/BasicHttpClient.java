@@ -46,6 +46,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.protocol.HttpContext;
 import org.json.simple.JSONObject;
 
+//TODO: migrate to OkHttp client
 public class BasicHttpClient extends AbstractHttpClient {
 
     private static final Logger LOG = Logger.getLogger(BasicHttpClient.class.getName());

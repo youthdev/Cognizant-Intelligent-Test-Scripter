@@ -24,8 +24,16 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
+import io.appium.java_client.touch.LongPressOptions;
+import io.appium.java_client.touch.TapOptions;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.ElementOption;
+import io.appium.java_client.touch.offset.PointOption;
+import org.openqa.selenium.support.ui.Wait;
+
+import java.awt.*;
 import java.time.Duration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,7 +62,7 @@ public class Basic extends MobileNativeCommand {
                 int nof = this.getInt(Data, 0, 1);
                 TouchAction touchAction = new TouchAction(((MobileDriver) Driver));
                 do {
-                    touchAction.tap(Element);
+                    touchAction.tap(TapOptions.tapOptions().withElement(ElementOption.element(Element)));
                     touchAction.release().perform();
                 } while (--nof > 0);
                 Report.updateTestLog(Action, "Tapped on '" + ObjectName + "'", Status.PASS);
@@ -81,7 +89,7 @@ public class Basic extends MobileNativeCommand {
             int y = this.getInt(Data, 2, 10);
             TouchAction touchAction = new TouchAction(((MobileDriver) Driver));
             do {
-                touchAction.tap(x, y);
+                touchAction.tap(TapOptions.tapOptions().withPosition(PointOption.point(x, y)));
                 touchAction.release().perform();
             } while (--nof > 0);
             Report.updateTestLog(Action, "Tapped at co-ordinates '" + x + "','" + y + "'", Status.PASS);
@@ -104,8 +112,14 @@ public class Basic extends MobileNativeCommand {
                 int l = 150;
                 TouchAction action0 = new TouchAction(((MobileDriver) Driver));
                 TouchAction action1 = new TouchAction(((MobileDriver) Driver));
-                action0.longPress(Element).moveTo(0, l).waitAction(Duration.ofMillis(500)).release();
-                action1.longPress(Element).moveTo(0, -l).waitAction(Duration.ofMillis(500)).release();
+                action0.longPress(LongPressOptions.longPressOptions().withElement(ElementOption.element(Element)))
+                        .moveTo(PointOption.point(0, l))
+                        .waitAction(WaitOptions.waitOptions(Duration.ofMillis(500)))
+                        .release();
+                action1.longPress(LongPressOptions.longPressOptions().withElement(ElementOption.element(Element)))
+                        .moveTo(PointOption.point(0, -l))
+                        .waitAction(WaitOptions.waitOptions(Duration.ofMillis(500)))
+                        .release();
                 new MultiTouchAction(((MobileDriver) Driver)).add(action0).add(action1).perform();
                 Report.updateTestLog(Action, "Zoomed in '" + ObjectName + "'", Status.PASS);
             } else {
@@ -130,10 +144,16 @@ public class Basic extends MobileNativeCommand {
             int l = 100;
             TouchAction action0 = new TouchAction(((MobileDriver) Driver));
             TouchAction action1 = new TouchAction(((MobileDriver) Driver));
-            action0.longPress(x, y + l).waitAction(Duration.ofMillis(100))
-                    .moveTo(0, 200).waitAction(Duration.ofMillis(100)).release();
-            action1.longPress(x + 50, y - l).waitAction(Duration.ofMillis(100))
-                    .moveTo(0, -200).waitAction(Duration.ofMillis(100)).release();
+            action0.longPress(LongPressOptions.longPressOptions().withPosition(PointOption.point(x, y + l)))
+                    .waitAction(WaitOptions.waitOptions(Duration.ofMillis(100)))
+                    .moveTo(PointOption.point(0, 200))
+                    .waitAction(WaitOptions.waitOptions(Duration.ofMillis(100)))
+                    .release();
+            action1.longPress(LongPressOptions.longPressOptions().withPosition(PointOption.point(x + 50, y - l)))
+                    .waitAction(WaitOptions.waitOptions(Duration.ofMillis(100)))
+                    .moveTo(PointOption.point(0, -200))
+                    .waitAction(WaitOptions.waitOptions(Duration.ofMillis(100)))
+                    .release();
             new MultiTouchAction(((MobileDriver) Driver)).add(action0).add(action1).perform();
             Report.updateTestLog(Action, "Zoomed at '" + x + "','" + y + "'", Status.PASS);
         } catch (Exception ex) {
@@ -154,10 +174,16 @@ public class Basic extends MobileNativeCommand {
                 int l = 150;
                 TouchAction action0 = new TouchAction(((MobileDriver) Driver));
                 TouchAction action1 = new TouchAction(((MobileDriver) Driver));
-                action0.longPress(Element).waitAction(Duration.ofMillis(100))
-                        .moveTo(0, l).waitAction(Duration.ofMillis(500)).release();
-                action1.longPress(Element).waitAction(Duration.ofMillis(100))
-                        .moveTo(0, -l).waitAction(Duration.ofMillis(500)).release();
+                action0.longPress(LongPressOptions.longPressOptions().withElement(ElementOption.element(Element)))
+                        .waitAction(WaitOptions.waitOptions(Duration.ofMillis(100)))
+                        .moveTo(PointOption.point(0, l))
+                        .waitAction(WaitOptions.waitOptions(Duration.ofMillis(500)))
+                        .release();
+                action1.longPress(LongPressOptions.longPressOptions().withElement(ElementOption.element(Element)))
+                        .waitAction(WaitOptions.waitOptions(Duration.ofMillis(100)))
+                        .moveTo(PointOption.point(0, -l))
+                        .waitAction(WaitOptions.waitOptions(Duration.ofMillis(500)))
+                        .release();
                 new MultiTouchAction(((MobileDriver) Driver)).add(action0).add(action1).perform();
                 Report.updateTestLog(Action, "Pinched '" + ObjectName + "'", Status.PASS);
             } else {
@@ -182,10 +208,16 @@ public class Basic extends MobileNativeCommand {
             int l = 350;
             TouchAction action0 = new TouchAction(((MobileDriver) Driver));
             TouchAction action1 = new TouchAction(((MobileDriver) Driver));
-            action0.longPress(x, y - l).waitAction(Duration.ofMillis(100))
-                    .moveTo(0, l - 200).waitAction(Duration.ofMillis(500)).release();
-            action1.longPress(x, y + l).waitAction(Duration.ofMillis(100))
-                    .moveTo(0, 200 - l).waitAction(Duration.ofMillis(500)).release();
+            action0.longPress(LongPressOptions.longPressOptions().withPosition(PointOption.point(x, y - l)))
+                    .waitAction(WaitOptions.waitOptions(Duration.ofMillis(100)))
+                    .moveTo(PointOption.point(0, l - 200))
+                    .waitAction(WaitOptions.waitOptions(Duration.ofMillis(500)))
+                    .release();
+            action1.longPress(LongPressOptions.longPressOptions().withPosition(PointOption.point(x, y + l)))
+                    .waitAction(WaitOptions.waitOptions(Duration.ofMillis(100)))
+                    .moveTo(PointOption.point(0, 200 - l))
+                    .waitAction(WaitOptions.waitOptions(Duration.ofMillis(500)))
+                    .release();
             new MultiTouchAction(((MobileDriver) Driver)).add(action0).add(action1).perform();
             Report.updateTestLog(Action, "Pinched at'" + x + "','" + y + "'", Status.PASS);
         } catch (Exception ex) {

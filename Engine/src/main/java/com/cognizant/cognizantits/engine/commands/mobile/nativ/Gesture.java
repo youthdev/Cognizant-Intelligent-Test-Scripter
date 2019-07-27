@@ -27,6 +27,11 @@ import io.appium.java_client.TouchAction;
 import java.time.Duration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import io.appium.java_client.touch.LongPressOptions;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.ElementOption;
+import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 
@@ -50,8 +55,10 @@ public class Gesture extends MobileNativeCommand {
                     TouchAction action = new TouchAction(((MobileDriver) Driver));
                     int distance = 100;
                     Point c = ((MobileElement) Element).getCenter();
-                    action.longPress((MobileElement) Element)
-                            .moveTo(c.x + distance, c.y).waitAction(Duration.ofMillis(500)).perform();
+                    action.longPress(LongPressOptions.longPressOptions().withElement(ElementOption.element(Element)))
+                            .moveTo(PointOption.point(c.x + distance, c.y))
+                            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(500)))
+                            .perform();
                     Report.updateTestLog(Action, "Sucessfully swiped towards right", Status.DONE);
                 } else {
                     throw new ElementException(ElementException.ExceptionType.Element_Not_Found, Condition);
@@ -85,8 +92,10 @@ public class Gesture extends MobileNativeCommand {
                     TouchAction action = new TouchAction(((MobileDriver) Driver));
                     int distance = 100;
                     Point c = ((MobileElement) Element).getCenter();
-                    action.longPress((MobileElement) Element)
-                            .moveTo(c.x - distance, c.y).waitAction(Duration.ofMillis(500)).perform();
+                    action.longPress(LongPressOptions.longPressOptions().withElement(ElementOption.element(Element)))
+                            .moveTo(PointOption.point(c.x - distance, c.y))
+                            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(500)))
+                            .perform();
                     Report.updateTestLog(Action, "Sucessfully swiped towards left", Status.DONE);
                 } else {
                     throw new ElementException(ElementException.ExceptionType.Element_Not_Found, Condition);
@@ -113,8 +122,8 @@ public class Gesture extends MobileNativeCommand {
 
     private void swipe(int startX, int startY, int endX, int endY, Duration wt) {
         TouchAction touchAction = new TouchAction(((MobileDriver) Driver));
-        touchAction.press(startX, startY).waitAction(wt).moveTo(endX, endY)
-                .release().perform();
+        touchAction.press(PointOption.point(startX, startY)).waitAction(WaitOptions.waitOptions(wt))
+                .moveTo(PointOption.point(endX, endY)).release().perform();
     }
 
     @Action(object = ObjectType.ANY, desc = "Swipe down [<Data>]", input = InputType.OPTIONAL)
@@ -125,8 +134,10 @@ public class Gesture extends MobileNativeCommand {
                     TouchAction action = new TouchAction(((MobileDriver) Driver));
                     int distance = 100;
                     Point c = ((MobileElement) Element).getCenter();
-                    action.longPress((MobileElement) Element)
-                            .moveTo(c.x, c.y + distance).waitAction(Duration.ofMillis(500)).perform();
+                    action.longPress(LongPressOptions.longPressOptions().withElement(ElementOption.element(Element)))
+                            .moveTo(PointOption.point(c.x, c.y + distance))
+                            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(500)))
+                            .perform();
                     Report.updateTestLog(Action, "Sucessfully swiped towards down", Status.DONE);
                 } else {
                     throw new ElementException(ElementException.ExceptionType.Element_Not_Found, Condition);
@@ -159,8 +170,10 @@ public class Gesture extends MobileNativeCommand {
                     TouchAction action = new TouchAction(((MobileDriver) Driver));
                     int distance = 100;
                     Point c = ((MobileElement) Element).getCenter();
-                    action.longPress((MobileElement) Element)
-                            .moveTo(c.x, c.y - distance).waitAction(Duration.ofMillis(500)).perform();
+                    action.longPress(LongPressOptions.longPressOptions().withElement(ElementOption.element(Element)))
+                            .moveTo(PointOption.point(c.x, c.y - distance))
+                            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(500)))
+                            .perform();
                     Report.updateTestLog(Action, "Sucessfully swiped towards up", Status.DONE);
                 } else {
                     throw new ElementException(ElementException.ExceptionType.Element_Not_Found, Condition);

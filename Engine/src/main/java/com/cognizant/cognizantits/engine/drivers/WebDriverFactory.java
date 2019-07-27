@@ -22,12 +22,10 @@ import com.cognizant.cognizantits.engine.constants.SystemDefaults;
 import com.cognizant.cognizantits.engine.core.Control;
 import com.cognizant.cognizantits.engine.core.RunContext;
 import com.cognizant.cognizantits.engine.drivers.customWebDriver.EmptyDriver;
-import com.cognizant.cognizantits.engine.drivers.customWebDriver.ExtendedHtmlUnitDriver;
 import com.cognizant.cognizantits.engine.drivers.findObjectBy.support.ByObjectProp;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.galenframework.config.GalenConfig;
 import com.galenframework.config.GalenProperty;
-import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.google.gson.Gson;
 import java.io.File;
 import java.io.IOException;
@@ -178,7 +176,7 @@ public class WebDriverFactory {
                     driver = new FirefoxDriver(withFirefoxProfile(caps));
                     addGeckoDriverAddon((FirefoxDriver) driver);
                 } else {
-                    caps = DesiredCapabilities.firefox().merge(withFirefoxProfile(caps).toCapabilities());
+                    caps = DesiredCapabilities.firefox().merge(withFirefoxProfile(caps));
                 }
                 break;
             case Chrome:
@@ -211,8 +209,6 @@ public class WebDriverFactory {
                     caps = DesiredCapabilities.edge().merge(caps);
                 }
                 break;
-            case HtmlUnit:
-                return new ExtendedHtmlUnitDriver(BrowserVersion.BEST_SUPPORTED);
             case Opera:
                 if (!isGrid) {
                     driver = new OperaDriver(caps);
@@ -433,7 +429,7 @@ public class WebDriverFactory {
         if (binPath != null && !binPath.isEmpty()) {
             fOptions.setBinary(binPath);
         }
-        fOptions.addCapabilities(caps);
+        fOptions.merge(caps);
         return fOptions;
     }
 
