@@ -28,9 +28,9 @@ import com.cognizant.cognizantits.engine.reporting.util.RDS;
 import com.cognizant.cognizantits.engine.reporting.util.RDS.TestCase;
 import com.cognizant.cognizantits.engine.reporting.util.ReportUtils;
 import com.cognizant.cognizantits.engine.support.Status;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Stack;
 import java.util.logging.Level;
@@ -301,7 +301,7 @@ public class HtmlTestCaseHandler extends TestCaseHandler implements PrimaryHandl
     @Override
     public Status finalizeReport() {
         updateResults();
-        try (BufferedWriter bufwriter = new BufferedWriter(new FileWriter(ReportFile));) {
+        try (BufferedWriter bufwriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(ReportFile), StandardCharsets.UTF_8));) {
             JSONObject singleTestcasereport = (JSONObject) testCaseData.clone();
             ReportUtils.loadDefaultTheme(singleTestcasereport);
             String tempDoc = SourceDoc.toString().replace(DATAF, singleTestcasereport.toJSONString());

@@ -15,9 +15,8 @@
  */
 package com.cognizant.cognizantits.engine.reporting.util;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.JSONArray;
@@ -65,7 +64,7 @@ public class RDS {
     }
 
     public synchronized static void writeToFile(String fileToWrite, String data) {
-        try (BufferedWriter bufwriter = new BufferedWriter(new FileWriter(fileToWrite))) {
+        try (BufferedWriter bufwriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileToWrite), StandardCharsets.UTF_8))) {
             bufwriter.write(data);
         } catch (IOException ex) {
             Logger.getLogger(RDS.class.getName()).log(Level.SEVERE, null, ex);
