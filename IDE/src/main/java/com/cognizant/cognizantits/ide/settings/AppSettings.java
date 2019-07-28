@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import com.cognizant.cognizantits.engine.constants.SystemDefaults;
 
 /**
  *
@@ -43,8 +44,8 @@ public class AppSettings {
         LOG_BACKUP_LOC("logBackupLoc", "backup/log"),
         LOG_FILE("logfile", "log.txt"),
         MAX_FILE_SIZE("maxFileSize", "4.5"),
-        DEFAULT_WAIT_TIME("defaultWaitTime", "10"),
-        ELEMENT_WAIT_TIME("elementWaitTime", "10"),
+        DEFAULT_WAIT_TIME("defaultWaitTime", SystemDefaults.defaultWaitTime.toString()),
+        ELEMENT_WAIT_TIME("elementWaitTime", SystemDefaults.defaultElementWaitTime.toString()),
         LOAD_RECENT("loadRecentProject", "true"),
         STANDALONE_REPORT("standaloneReport", "false"),
         HELP_DOC("helpdoc", "https://cognizantqahub.github.io/Cognizant-Intelligent-Test-Scripter-Helpdoc");
