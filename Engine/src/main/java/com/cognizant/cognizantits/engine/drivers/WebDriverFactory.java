@@ -55,7 +55,6 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.opera.OperaDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -65,15 +64,13 @@ public class WebDriverFactory {
 
     public enum Browser {
 
-        FireFox("Firefox"),
         Chrome("Chrome"),
+        ChromeHeadless("Chrome Headless"),
+        FireFox("Firefox"),
         IE("IE"),
         Edge("Edge"),
         Opera("Opera"),
         Safari("Safari"),
-        ChromeHeadless("Chrome Headless"),
-        HtmlUnit("HtmlUnit"),
-        PhantomJS("PhantomJS"),
         Empty("No Browser"),
         Emulator("Emulator");
 
@@ -88,7 +85,7 @@ public class WebDriverFactory {
         }
 
         public boolean isHeadLess() {
-            return this == HtmlUnit || this == PhantomJS || this == Empty || this == ChromeHeadless;
+            return this == Empty || this == ChromeHeadless;
         }
 
         @Override
@@ -221,13 +218,6 @@ public class WebDriverFactory {
                     driver = new SafariDriver(caps);
                 } else {
                     caps = DesiredCapabilities.safari().merge(caps);
-                }
-                break;
-            case PhantomJS:
-                if (!isGrid) {
-                    driver = new PhantomJSDriver(caps);
-                } else {
-                    caps = DesiredCapabilities.phantomjs().merge(caps);
                 }
                 break;
             case Empty:

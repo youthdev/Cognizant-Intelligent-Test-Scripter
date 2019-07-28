@@ -216,39 +216,37 @@ public class SeleniumDriver {
 
     public String getBrowserVersion() {
         if (runContext.BrowserVersion.equalsIgnoreCase("default")) {
-            if (!runContext.Browser.equals((Browser.HtmlUnit))) {
-                String browser_version;
-                Capabilities cap;
-                if (driver instanceof MobileDriver) {
-                    cap = ((RemoteWebDriver) driver).getCapabilities();
-                    Object pV = cap.getCapability("platformVersion");
-                    return pV == null ? "" : pV.toString();
-                } else if (driver instanceof RemoteWebDriver) {
-                    cap = ((RemoteWebDriver) driver).getCapabilities();
+            String browser_version;
+            Capabilities cap;
+            if (driver instanceof MobileDriver) {
+                cap = ((RemoteWebDriver) driver).getCapabilities();
+                Object pV = cap.getCapability("platformVersion");
+                return pV == null ? "" : pV.toString();
+            } else if (driver instanceof RemoteWebDriver) {
+                cap = ((RemoteWebDriver) driver).getCapabilities();
+            } else {
+                return runContext.BrowserVersion;
+            }
+            String browsername = cap.getBrowserName();
+            // This block to find out IE Version number
+            if ("internet explorer".equalsIgnoreCase(browsername)) {
+                String uAgent = (String) ((JavascriptExecutor) driver).executeScript("return navigator.userAgent;");
+                // uAgent return as "MSIE 8.0 Windows" for IE8
+                if (uAgent.contains("MSIE") && uAgent.contains("Windows")) {
+                    browser_version = uAgent.substring(uAgent.indexOf("MSIE") + 5, uAgent.indexOf("Windows") - 2);
+                } else if (uAgent.contains("Trident/7.0")) {
+                    browser_version = "11.0";
                 } else {
-                    return runContext.BrowserVersion;
+                    browser_version = "0.0";
                 }
-                String browsername = cap.getBrowserName();
-                // This block to find out IE Version number
-                if ("internet explorer".equalsIgnoreCase(browsername)) {
-                    String uAgent = (String) ((JavascriptExecutor) driver).executeScript("return navigator.userAgent;");
-                    // uAgent return as "MSIE 8.0 Windows" for IE8
-                    if (uAgent.contains("MSIE") && uAgent.contains("Windows")) {
-                        browser_version = uAgent.substring(uAgent.indexOf("MSIE") + 5, uAgent.indexOf("Windows") - 2);
-                    } else if (uAgent.contains("Trident/7.0")) {
-                        browser_version = "11.0";
-                    } else {
-                        browser_version = "0.0";
-                    }
-                } else {
-                    // Browser version for Firefox and Chrome
-                    browser_version = cap.getVersion();
-                }
-                if (browser_version.contains(".") && browser_version.length() > 5) {
-                    return browser_version.substring(0, browser_version.indexOf("."));
-                } else {
-                    return browser_version;
-                }
+            } else {
+                // Browser version for Firefox and Chrome
+                browser_version = cap.getVersion();
+            }
+            if (browser_version.contains(".") && browser_version.length() > 5) {
+                return browser_version.substring(0, browser_version.indexOf("."));
+            } else {
+                return browser_version;
             }
         }
         return runContext.BrowserVersion;
