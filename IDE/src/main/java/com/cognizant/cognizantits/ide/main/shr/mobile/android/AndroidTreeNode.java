@@ -17,6 +17,7 @@ package com.cognizant.cognizantits.ide.main.shr.mobile.android;
 
 import com.cognizant.cognizantits.ide.main.shr.mobile.MobileTreeNode;
 import com.cognizant.cognizantits.ide.main.shr.mobile.Rect;
+import com.cognizant.cognizantits.ide.util.Utility;
 
 /**
  *
@@ -69,14 +70,41 @@ public class AndroidTreeNode extends MobileTreeNode {
     }
 
     @Override
+    public String getTextContent() {
+        return getTextContent(this, 0);
+    }
+
+    private String getTextContent(AndroidTreeNode node, int depth) {
+        if (depth >= 10) return "";
+
+        int count = node.getChildCount();
+        String text = node.getText().trim();
+        for(int i = 0; i < count; i++) {
+            String tmp = getTextContent((AndroidTreeNode) node.getChildAt(i), depth + 1);
+            if (!tmp.trim().isEmpty()) {
+                if (!text.isEmpty()) text += " ";
+                text += tmp;
+            }
+        }
+        return text;
+    }
+
+    @Override
     public String getValidName() {
         String name = getText();
         if (name != null && !name.isEmpty()) {
-            return name;
+            return Utility.sanitizeFilename(name);
+        }
+        name = this.getTextContent();
+        if (name != null && !name.isEmpty()) {
+            if (name.length() > 100) {
+                name = name.substring(0, 99);
+            }
+            return Utility.sanitizeFilename(name);
         }
         name = getAttribute("content-desc");
         if (name != null && !name.isEmpty()) {
-            return name;
+            return Utility.sanitizeFilename(name);
         }
         name = getId();
         if (name != null && !name.isEmpty()) {

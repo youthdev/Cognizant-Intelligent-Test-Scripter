@@ -172,4 +172,8 @@ public class Utility {
         }
         return data;
     }
+
+    public static String sanitizeFilename(String name) {
+        return name.replaceAll("[:\\\\/*?|<>]", "_");
+    }
 }

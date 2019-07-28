@@ -17,6 +17,7 @@ package com.cognizant.cognizantits.ide.main.shr.mobile.ios;
 
 import com.cognizant.cognizantits.ide.main.shr.mobile.MobileTreeNode;
 import com.cognizant.cognizantits.ide.main.shr.mobile.Rect;
+import com.cognizant.cognizantits.ide.util.Utility;
 
 /**
  *
@@ -64,16 +65,43 @@ public class IOSTreeNode extends MobileTreeNode {
     }
 
     @Override
+    public String getTextContent() {
+        return getTextContent(this, 0);
+    }
+
+    private String getTextContent(IOSTreeNode node, int depth) {
+        if (depth >= 10) return "";
+
+        int count = node.getChildCount();
+        String text = node.getText().trim();
+        for(int i = 0; i < count; i++) {
+            String tmp = getTextContent((IOSTreeNode) node.getChildAt(i), depth + 1);
+            if (!tmp.trim().isEmpty()) {
+                if (!text.isEmpty()) text += " ";
+                text += tmp;
+            }
+        }
+        return text;
+    }
+
+    @Override
     public String getValidName() {
         String name = getAttribute("name");
         if (!name.trim().isEmpty()) {
-            return name;
+            return Utility.sanitizeFilename(name);
+        }
+        name = getTextContent();
+        if (name != null && !name.isEmpty()) {
+            if (name.length() > 100) {
+                name = name.substring(0, 99);
+            }
+            return Utility.sanitizeFilename(name);
         }
         name = getAttribute("label");
         if (!name.trim().isEmpty()) {
-            return name;
+            return Utility.sanitizeFilename(name);
         }
-        name = getAttribute("value");
+        name = Utility.sanitizeFilename(getAttribute("value"));
         if (!name.trim().isEmpty()) {
             return name;
         }

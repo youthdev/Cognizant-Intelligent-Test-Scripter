@@ -85,4 +85,6 @@ public abstract class MobileTreeNode extends DefaultMutableTreeNode {
     public abstract String getValidName();
 
     public abstract String getPageName();
+
+    public abstract String getTextContent();
 }
