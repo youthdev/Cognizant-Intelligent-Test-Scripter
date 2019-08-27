@@ -389,6 +389,10 @@ public class TableColumnManager
         }
     }
 
+    public void setPreferredColumnWidth(int colIndex, int preferredWidth) {
+        tcm.getColumn(colIndex).setPreferredWidth(preferredWidth);
+    }
+
     /*
 	 *  Allows you to select a specific menu item when the popup is
 	 *  displayed. (ie. this is a bug? fix)
