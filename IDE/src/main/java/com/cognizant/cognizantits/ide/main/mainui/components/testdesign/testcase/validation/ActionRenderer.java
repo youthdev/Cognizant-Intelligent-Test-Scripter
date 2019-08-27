@@ -85,6 +85,10 @@ public class ActionRenderer extends AbstractRenderer {
                 valid = MethodInfoManager.getMethodListFor(ObjectType.BROWSER)
                         .contains(action);
                 break;
+            case "Mobile":
+                valid = MethodInfoManager.getMethodListFor(ObjectType.MOBILE)
+                        .contains(action);
+                break;
             case "App":
                 valid = MethodInfoManager.getMethodListFor(ObjectType.APP)
                         .contains(action);

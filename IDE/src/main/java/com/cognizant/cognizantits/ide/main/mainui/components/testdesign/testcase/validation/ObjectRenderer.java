@@ -74,7 +74,7 @@ public class ObjectRenderer extends AbstractRenderer {
 
     private Boolean isValidObject(Object value) {
         return Objects.toString(value, "").trim()
-                .matches("Execute|App|Browser|Database");
+                .matches("Execute|App|Browser|Mobile|Database");
     }
 
 }

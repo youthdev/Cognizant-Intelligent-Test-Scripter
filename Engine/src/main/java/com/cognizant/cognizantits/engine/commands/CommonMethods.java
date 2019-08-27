@@ -288,13 +288,13 @@ public class CommonMethods extends General {
         }
     }
 
-    @Action(object = ObjectType.BROWSER, desc = "print the data [<Data>]", input = InputType.YES)
+    @Action(object = ObjectType.ANY, desc = "print the data [<Data>]", input = InputType.YES)
     public void print() {
         System.out.println(Data);
         Report.updateTestLog("print", String.format("printed %s", Data), Status.DONE);
     }
 
-    @Action(object = ObjectType.BROWSER, desc = "Wait for [<Data>] milli seconds", input = InputType.YES)
+    @Action(object = ObjectType.ANY, desc = "Wait for [<Data>] milli seconds", input = InputType.YES)
     public void pause() {
         try {
             Thread.sleep(Long.parseLong(Data));

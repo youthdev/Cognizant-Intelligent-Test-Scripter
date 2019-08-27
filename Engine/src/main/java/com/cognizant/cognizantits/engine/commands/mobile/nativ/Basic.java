@@ -200,7 +200,7 @@ public class Basic extends MobileNativeCommand {
      *
      * @see AppiumDriver#pinch(int, int)
      */
-    @Action(object = ObjectType.BROWSER, desc = "Pinch at [<Data>]", input = InputType.YES)
+    @Action(object = ObjectType.MOBILE, desc = "Pinch at [<Data>]", input = InputType.YES)
     public void pinchAt() {
         try {
             int x = this.getInt(Data, 0, 10);
@@ -232,7 +232,7 @@ public class Basic extends MobileNativeCommand {
      *
      * @see AppiumDriver#lockScreen(int)
      */
-    @Action(object = ObjectType.BROWSER, desc = "Lock the screen", input = InputType.YES)
+    @Action(object = ObjectType.MOBILE, desc = "Lock the screen", input = InputType.YES)
     public void lockScreen() {
         try {
             if (Driver instanceof AndroidDriver) {
@@ -253,7 +253,7 @@ public class Basic extends MobileNativeCommand {
      *
      * @see AppiumDriver#lockScreen(int)
      */
-    @Action(object = ObjectType.BROWSER, desc = "Switch the context to [<Data>]", input = InputType.YES)
+    @Action(object = ObjectType.MOBILE, desc = "Switch the context to [<Data>]", input = InputType.YES)
     public void switchContext() {
         try {
             ((MobileDriver) Driver).context(Data);
@@ -276,7 +276,7 @@ public class Basic extends MobileNativeCommand {
      *
      * @see AppiumDriver#launchApp()
      */
-    @Action(object = ObjectType.BROWSER, desc = "Clean app data and launch the app given in Capabillities")
+    @Action(object = ObjectType.MOBILE, desc = "Clean app data and launch the app given in Capabillities")
     public void launchApp() {
         try {
             ((AppiumDriver) Driver).launchApp();
@@ -292,7 +292,7 @@ public class Basic extends MobileNativeCommand {
      *
      * @see AppiumDriver#launchApp()
      */
-    @Action(object = ObjectType.BROWSER, desc = "Install the App [<Data>]", input = InputType.YES)
+    @Action(object = ObjectType.MOBILE, desc = "Install the App [<Data>]", input = InputType.YES)
     public void installApp() {
         try {
             ((AppiumDriver) Driver).installApp(Data);
@@ -308,7 +308,7 @@ public class Basic extends MobileNativeCommand {
      *
      * @see AppiumDriver#toggleLocationServices()
      */
-    @Action(object = ObjectType.BROWSER, desc = "Toggle the Location Services(android)")
+    @Action(object = ObjectType.MOBILE, desc = "Toggle the Location Services(android)")
 
     public void toggleLocationServices() {
         try {
@@ -325,7 +325,7 @@ public class Basic extends MobileNativeCommand {
      *
      * @see AppiumDriver#hideKeyboard()
      */
-    @Action(object = ObjectType.BROWSER, desc = "Hide the Keyboard")
+    @Action(object = ObjectType.MOBILE, desc = "Hide the Keyboard")
     public void hideKeyboard() {
         try {
             ((AppiumDriver) Driver).hideKeyboard();
@@ -341,7 +341,7 @@ public class Basic extends MobileNativeCommand {
      *
      * @see AppiumDriver#hideKeyboard()
      */
-    @Action(object = ObjectType.BROWSER, desc = "Reset (reinstall) the app")
+    @Action(object = ObjectType.MOBILE, desc = "Reset (reinstall) the app")
     public void resetApp() {
         try {
             ((AppiumDriver) Driver).resetApp();
@@ -357,7 +357,7 @@ public class Basic extends MobileNativeCommand {
      *
      * @see AppiumDriver#hideKeyboard()
      */
-    @Action(object = ObjectType.BROWSER, desc = "Open the Notifications(android)")
+    @Action(object = ObjectType.MOBILE, desc = "Open the Notifications(android)")
     public void openNotifications() {
         try {
             ((AndroidDriver) Driver).openNotifications();
@@ -368,7 +368,7 @@ public class Basic extends MobileNativeCommand {
         }
     }
 
-    @Action(object = ObjectType.BROWSER, desc = "Close the app on device")
+    @Action(object = ObjectType.MOBILE, desc = "Close the app on device")
     public void closeApp() {
         try {
             ((AppiumDriver) Driver).closeApp();
@@ -379,7 +379,7 @@ public class Basic extends MobileNativeCommand {
         }
     }
 
-    @Action(object = ObjectType.BROWSER, desc = "Put the app to backgroun for [Data] seconds and then resume", input = InputType.YES)
+    @Action(object = ObjectType.MOBILE, desc = "Put the app to backgroun for [Data] seconds and then resume", input = InputType.YES)
     public void runAppInBackground() {
         try {
             ((AppiumDriver) Driver).runAppInBackground(Duration.ofSeconds(this.getInt(Data, 0, 1)));
@@ -390,7 +390,7 @@ public class Basic extends MobileNativeCommand {
         }
     }
 
-    @Action(object = ObjectType.BROWSER, desc = "Kill the app and relaunch without cleaning app data")
+    @Action(object = ObjectType.MOBILE, desc = "Kill the app and relaunch without cleaning app data")
     public void restartApp() {
         try {
             String appId = "";

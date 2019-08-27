@@ -33,6 +33,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import java.util.UUID;
 
 public class Basic extends General {
 
@@ -255,7 +256,7 @@ public class Basic extends General {
         Report.updateTestLog("StopBrowser", "Browser Stopped: ", Status.DONE);
     }
 
-    @Action(object = ObjectType.BROWSER, desc = "Add a variable to access within testcase", input = InputType.YES, condition = InputType.YES)
+    @Action(object = ObjectType.ANY, desc = "Add a variable to access within testcase", input = InputType.YES, condition = InputType.YES)
     public void AddVar() {
         addVar(Condition, Data);
         if (getVar(Condition) != null) {
@@ -267,7 +268,7 @@ public class Basic extends General {
         }
     }
 
-    @Action(object = ObjectType.BROWSER, desc = "Add a Global variable to access across test set", input = InputType.YES, condition = InputType.YES)
+    @Action(object = ObjectType.ANY, desc = "Add a Global variable to access across test set", input = InputType.YES, condition = InputType.YES)
     public void AddGlobalVar() {
         addGlobalVar(Condition, Data);
         if (getVar(Condition) != null) {
@@ -279,7 +280,20 @@ public class Basic extends General {
         }
     }
 
-    @Action(object = ObjectType.BROWSER, desc = "changing wait time by [<Data>] seconds", input = InputType.YES)
+    @Action(object = ObjectType.ANY, desc = "Add a random value variable with prefix [<Data>]", input = InputType.YES, condition = InputType.YES)
+    public void AddRandomVar() {
+        String val = Data.length() > 0 ? Data + "_" + UUID.randomUUID().toString() : UUID.randomUUID().toString();
+        addVar(Condition, val);
+        if (getVar(Condition) != null) {
+            Report.updateTestLog("addVar", "Variable " + Condition
+                    + " added with value " + val, Status.DONE);
+        } else {
+            Report.updateTestLog("addVar", "Variable " + Condition
+                    + " not added ", Status.DEBUG);
+        }
+    }
+
+    @Action(object = ObjectType.ANY, desc = "changing wait time by [<Data>] seconds", input = InputType.YES)
     public void changeWaitTime() {
         try {
             int t = Integer.parseInt(Data);
@@ -300,7 +314,7 @@ public class Basic extends General {
         }
     }
 
-    @Action(object = ObjectType.BROWSER,
+    @Action(object = ObjectType.ANY,
             desc = "Change Default Element finding wait time by [<Data>] seconds",
             input = InputType.YES)
     public void setElementTimeOut() {

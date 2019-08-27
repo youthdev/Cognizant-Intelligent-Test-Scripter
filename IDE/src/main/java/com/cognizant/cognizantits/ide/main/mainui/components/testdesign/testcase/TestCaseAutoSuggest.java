@@ -133,6 +133,7 @@ public class TestCaseAutoSuggest {
     private List<String> getObjectList() {
         List<String> objectList = new ArrayList<>();
         objectList.add("Browser");
+        objectList.add("Mobile");
         objectList.add("Execute");
         objectList.add("App");
         objectList.add("Database");
@@ -183,6 +184,8 @@ public class TestCaseAutoSuggest {
                     return getReusables();
                 case "Browser":
                     return MethodInfoManager.getMethodListFor(ObjectType.BROWSER, ObjectType.ANY);
+                case "Mobile":
+                    return MethodInfoManager.getMethodListFor(ObjectType.MOBILE, ObjectType.ANY);
                 case "App":
                     return MethodInfoManager.getMethodListFor(ObjectType.APP, ObjectType.ANY);
                 case "Database":

@@ -70,7 +70,7 @@ public class ReferenceRenderer extends AbstractRenderer {
     }
 
     private Boolean isOptional(TestStep step) {
-        return step.getObject().matches("Execute|App|Browser|Database");
+        return step.getObject().matches("Execute|App|Browser|Mobile|Database");
     }
 
     private Boolean isObjectPresent(TestStep step) {
