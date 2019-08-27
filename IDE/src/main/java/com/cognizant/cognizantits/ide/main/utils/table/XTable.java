@@ -20,10 +20,7 @@ import com.cognizant.cognizantits.ide.main.utils.keys.ClipboardKeyAdapter;
 import com.cognizant.cognizantits.ide.main.utils.keys.Keystroke;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EventObject;
@@ -367,6 +364,29 @@ public class XTable extends JTable {
         }
     }
 
+    //Implement table cell tool tips.
+    @Override
+    public String getToolTipText(MouseEvent e) {
+        String tip = super.getToolTipText(e);
+        if (tip != null && !tip.isEmpty()) {
+            return tip;
+        }
+        java.awt.Point p = e.getPoint();
+        int rowIndex = rowAtPoint(p);
+        int colIndex = columnAtPoint(p);
+
+        try {
+            tip = getValueAt(rowIndex, colIndex).toString();
+            if (tip.isEmpty()) {
+                //hide tool tips in case of empty value
+                tip = null;
+            }
+        } catch (RuntimeException e1) {
+            //catch null pointer exception if mouse is over an empty line
+        }
+
+        return tip;
+    }
 }
 
 class SearchRenderer extends DefaultTableCellRenderer {
@@ -426,5 +446,4 @@ class SearchRenderer extends DefaultTableCellRenderer {
             }
         }
     }
-
 }
