@@ -64,6 +64,7 @@ public class HtmlTestCaseHandler extends TestCaseHandler implements PrimaryHandl
     int FailedSteps = 0;
     int PassedSteps = 0;
     int DoneSteps = 0;
+    Status testCaseStatus = Status.FAIL;
 
     public HtmlTestCaseHandler(TestCaseReport report) {
         super(report);
@@ -185,13 +186,14 @@ public class HtmlTestCaseHandler extends TestCaseHandler implements PrimaryHandl
     }
 
     private void onSetpDone() {
-        DoneSteps++;                
+        DoneSteps++;
         if (reusable != null && reusable.get(TestCase.STATUS).equals("")) {
             reusable.put(TestCase.STATUS, "PASS");
         }
         if (iteration != null && iteration.get(TestCase.STATUS).equals("")) {
             iteration.put(TestCase.STATUS, "PASS");
         }
+        testCaseStatus = Status.PASS;
     }
 
     private void onSetpPassed() {
@@ -202,6 +204,7 @@ public class HtmlTestCaseHandler extends TestCaseHandler implements PrimaryHandl
         if (iteration != null && iteration.get(TestCase.STATUS).equals("")) {
             iteration.put(TestCase.STATUS, "PASS");
         }
+        testCaseStatus = Status.PASS;
     }
 
     private void onSetpFailed() {
@@ -212,6 +215,7 @@ public class HtmlTestCaseHandler extends TestCaseHandler implements PrimaryHandl
         if (reusable != null) {
             reusable.put(TestCase.STATUS, "FAIL");
         }
+        testCaseStatus = Status.FAIL;
     }
 
     private void putStatus(Status state, List<String> optional, String optionalLink, JSONObject data) {
@@ -364,10 +368,6 @@ public class HtmlTestCaseHandler extends TestCaseHandler implements PrimaryHandl
 
     @Override
     public Status getCurrentStatus() {
-        if (FailedSteps > 0 || (PassedSteps + DoneSteps) == 0) {
-            return Status.FAIL;
-        } else {
-            return Status.PASS;
-        }
+        return testCaseStatus;
     }
 }
