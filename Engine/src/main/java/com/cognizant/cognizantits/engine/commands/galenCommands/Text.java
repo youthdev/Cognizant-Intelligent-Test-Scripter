@@ -51,7 +51,7 @@ public class Text extends General {
     }
 
     private void checkElementTypeBeforeProcessing() {
-        if (Element != null) {
+        if (Element != null && Element.getTagName() != null) {
             if (Element.getTagName().equalsIgnoreCase("select")) {
                 Select select = new Select(Element);
                 Element = select.getFirstSelectedOption();
