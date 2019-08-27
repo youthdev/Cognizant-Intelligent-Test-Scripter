@@ -276,7 +276,7 @@ public class Basic extends MobileNativeCommand {
      *
      * @see AppiumDriver#launchApp()
      */
-    @Action(object = ObjectType.BROWSER, desc = "Launch the app given in Capabillities")
+    @Action(object = ObjectType.BROWSER, desc = "Clean app data and launch the app given in Capabillities")
     public void launchApp() {
         try {
             ((AppiumDriver) Driver).launchApp();
@@ -292,7 +292,7 @@ public class Basic extends MobileNativeCommand {
      *
      * @see AppiumDriver#launchApp()
      */
-    @Action(object = ObjectType.BROWSER, desc = "install the App [<Data>]", input = InputType.YES)
+    @Action(object = ObjectType.BROWSER, desc = "Install the App [<Data>]", input = InputType.YES)
     public void installApp() {
         try {
             ((AppiumDriver) Driver).installApp(Data);
@@ -341,7 +341,7 @@ public class Basic extends MobileNativeCommand {
      *
      * @see AppiumDriver#hideKeyboard()
      */
-    @Action(object = ObjectType.BROWSER, desc = "reset the app")
+    @Action(object = ObjectType.BROWSER, desc = "Reset (reinstall) the app")
     public void resetApp() {
         try {
             ((AppiumDriver) Driver).resetApp();
@@ -368,4 +368,53 @@ public class Basic extends MobileNativeCommand {
         }
     }
 
+    @Action(object = ObjectType.BROWSER, desc = "Close the app on device")
+    public void closeApp() {
+        try {
+            ((AppiumDriver) Driver).closeApp();
+            Report.updateTestLog(Action, "Application is closed successful", Status.PASS);
+        } catch (Exception ex) {
+            Report.updateTestLog(Action, ex.getMessage(), Status.DEBUG);
+            Logger.getLogger(Basic.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Action(object = ObjectType.BROWSER, desc = "Put the app to backgroun for [Data] seconds and then resume", input = InputType.YES)
+    public void runAppInBackground() {
+        try {
+            ((AppiumDriver) Driver).runAppInBackground(Duration.ofSeconds(this.getInt(Data, 0, 1)));
+            Report.updateTestLog(Action, "Application is put to background successful", Status.PASS);
+        } catch (Exception ex) {
+            Report.updateTestLog(Action, ex.getMessage(), Status.DEBUG);
+            Logger.getLogger(Basic.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Action(object = ObjectType.BROWSER, desc = "Kill the app and relaunch without cleaning app data")
+    public void restartApp() {
+        try {
+            String appId = "";
+            if (Driver instanceof  AndroidDriver) {
+                appId = ((AndroidDriver) Driver).getCurrentPackage();
+                if (appId.isEmpty()) {
+                    Report.updateTestLog(Action, "Can not detect appPackage so, the restart action won't work", Status.DEBUG);
+                }
+            }
+            else if (Driver instanceof IOSDriver) {
+                appId = ((AppiumDriver) Driver).getCapabilities().getCapability("bundleId").toString();
+                if (appId.isEmpty()) {
+                    Report.updateTestLog(Action, "Capability \"bundleId\" must be configured to restart an iOS app", Status.DEBUG);
+                }
+            }
+
+            if (!appId.isEmpty()) {
+                ((AppiumDriver) Driver).closeApp();
+                ((AppiumDriver) Driver).activateApp(appId);
+                Report.updateTestLog(Action, "Application is restarted successful", Status.PASS);
+            }
+        } catch (Exception ex) {
+            Report.updateTestLog(Action, ex.getMessage(), Status.DEBUG);
+            Logger.getLogger(Basic.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
