@@ -54,6 +54,16 @@ public class TestCasePopupMenu extends JPopupMenu {
 
         add(Utils.createMenuItem("Toggle BreakPoint", "Ctrl+B", Keystroke.BREAKPOINT, actionListener));
         add(Utils.createMenuItem("Toggle Comment", "Ctrl+/", Keystroke.COMMENT, actionListener));
+        JMenu jumperStateMenu = new JMenu("Jump");
+        jumperStateMenu.add(Utils.createMenuItem("No Jump", actionListener));
+        jumperStateMenu.add(Utils.createMenuItem("Jump Out on Failure", actionListener));
+        jumperStateMenu.add(Utils.createMenuItem("Jump Out on Success", actionListener));
+        add(jumperStateMenu);
+        JMenu iterationModeMenu = new JMenu("Iteration Mode");
+        iterationModeMenu.add(Utils.createMenuItem("Inherit from Run Setting", actionListener));
+        iterationModeMenu.add(Utils.createMenuItem("Continue on Error", actionListener));
+        iterationModeMenu.add(Utils.createMenuItem("Break on Error", actionListener));
+        add(iterationModeMenu);
 
         addSeparator();
         add(Utils.createMenuItem("Cut", "Ctrl+X", Keystroke.CUT, actionListener));

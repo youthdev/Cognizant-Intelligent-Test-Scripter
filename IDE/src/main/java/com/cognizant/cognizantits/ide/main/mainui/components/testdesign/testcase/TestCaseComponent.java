@@ -115,12 +115,24 @@ public class TestCaseComponent extends JPanel implements ActionListener {
         initRunner();
     }
 
+    private void initTableColumnSize() {
+        tableColumnManager.setPreferredColumnWidth(0, 30); //Step no
+        tableColumnManager.setPreferredColumnWidth(1, 160); //Object name
+        tableColumnManager.setPreferredColumnWidth(2, 180); //Description
+        tableColumnManager.setPreferredColumnWidth(3, 180); //Action
+        tableColumnManager.setPreferredColumnWidth(6, 180); //Reference
+        tableColumnManager.setPreferredColumnWidth(7, 40); //Jumper state
+        tableColumnManager.setPreferredColumnWidth(8, 40); //Chain
+        tableColumnManager.setPreferredColumnWidth(9, 40); //Iteration mode
+    }
+
     public void loadTableModelForSelection(Object obj) {
         if (obj != null && obj instanceof TestCase) {
             testCaseHistory.log();
             TestCase tc = (TestCase) obj;
             tc.setSaveListener(saveListener);
             getTestCaseTable().setModel(testDesign.getProject().getTableModelFor(tc));
+            initTableColumnSize();
             tcAutoSuggest.installForTestCase();
             validator.initValidations();
             changeSave(tc.isSaved());
@@ -367,6 +379,24 @@ public class TestCaseComponent extends JPanel implements ActionListener {
             case "Toggle Comment":
                 toggleComment();
                 break;
+            case "No Jump":
+                setJumperState(TestStep.JUMPER_STATE.NONE);
+                break;
+            case "Jump Out on Failure":
+                setJumperState(TestStep.JUMPER_STATE.JUMP_OUT_ON_FAILURE);
+                break;
+            case "Jump Out on Success":
+                setJumperState(TestStep.JUMPER_STATE.JUMP_OUT_ON_SUCCESS);
+                break;
+            case "Inherit from Run Setting":
+                setIterationMode(TestStep.ITERATION_MODE.INHERIT);
+                break;
+            case "Continue on Error":
+                setIterationMode(TestStep.ITERATION_MODE.CONTINUE_ON_ERROR);
+                break;
+            case "Break on Error":
+                setIterationMode(TestStep.ITERATION_MODE.BREAK_ON_ERROR);
+                break;
             case "Console":
                 consoleDialog.showConsole();
                 break;
@@ -556,6 +586,20 @@ public class TestCaseComponent extends JPanel implements ActionListener {
         }
     }
 
+    private void setJumperState(TestStep.JUMPER_STATE state) {
+        stopCellEditing();
+        if (testCaseTable.getSelectedRows().length > 0) {
+            getCurrentTestCase().setJumperState(testCaseTable.getSelectedRows(), state);
+        }
+    }
+
+    private void setIterationMode(TestStep.ITERATION_MODE mode) {
+        stopCellEditing();
+        if (testCaseTable.getSelectedRows().length > 0) {
+            getCurrentTestCase().setIterationMode(testCaseTable.getSelectedRows(), mode);
+        }
+    }
+
     private void openWithSystemEditor() {
         save();
         Utils.openWithSystemEditor(getCurrentTestCase().getLocation());
@@ -584,6 +628,7 @@ public class TestCaseComponent extends JPanel implements ActionListener {
         stopCellEditing();
         getCurrentTestCase().reload();
         tableColumnManager.reset();
+        initTableColumnSize();
         tcAutoSuggest.installForTestCase();
         validator.initValidations();
     }
