@@ -194,6 +194,22 @@ public class TestCase extends DataModel {
         stopGroupEdit();
     }
 
+    public void setJumperState(int[] indices, TestStep.JUMPER_STATE state) {
+        startGroupEdit();
+        for(int index : indices) {
+            testSteps.get(index).setJumperState(state);
+        }
+        stopGroupEdit();
+    }
+
+    public void setIterationMode(int[] indices, TestStep.ITERATION_MODE mode) {
+        startGroupEdit();
+        for(int index : indices) {
+            testSteps.get(index).setIterationMode(mode);
+        }
+        stopGroupEdit();
+    }
+
     public void addReusableStep(String reusable) {
         TestStep step = new TestStep(this);
         step.setObject("Execute");

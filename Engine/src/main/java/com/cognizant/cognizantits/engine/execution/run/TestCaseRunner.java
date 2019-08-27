@@ -274,9 +274,12 @@ public class TestCaseRunner {
 //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="error handling">
-    private void onError(Throwable ex) {
+    private void onError(Throwable ex, TestStep testStep) {
         reportOnError(getStepName(), ex.getMessage(), Status.FAIL);
-        if (exe.isContinueOnError()) {
+        if (exe.isContinueOnError()
+                || testStep.getIterationMode() == TestStep.ITERATION_MODE.CONTINUE_ON_ERROR
+                || testStep.getJumperState() == TestStep.JUMPER_STATE.JUMP_OUT_ON_FAILURE
+        ) {
             LOG.log(Level.SEVERE, ex.getMessage(), Optional.ofNullable(ex.getCause()).orElse(ex));
         } else {
             if (ex instanceof RuntimeException) {
@@ -286,9 +289,12 @@ public class TestCaseRunner {
         }
     }
 
-    private void onRuntimeException(RuntimeException ex) {
+    private void onRuntimeException(RuntimeException ex, TestStep testStep) {
         reportOnError(getStepName(), ex.getMessage(), Status.FAIL);
-        if (exe.isContinueOnError()) {
+        if (exe.isContinueOnError()
+                || testStep.getIterationMode() == TestStep.ITERATION_MODE.CONTINUE_ON_ERROR
+                || testStep.getJumperState() == TestStep.JUMPER_STATE.JUMP_OUT_ON_FAILURE
+        ) {
             LOG.log(Level.SEVERE, ex.getMessage(), ex);
         } else {
             throw new TestFailedException(scenario(), testcase(), ex);
@@ -362,11 +368,24 @@ public class TestCaseRunner {
                             throw new TestFailedException(scenario(), testcase(), ex);
                         }
                     } catch (ForcedException | ElementException ex) {
-                        onRuntimeException(ex);
+                        onRuntimeException(ex, testStep);
+                        if (testStep.getJumperState() == TestStep.JUMPER_STATE.JUMP_OUT_ON_FAILURE) {
+                            LOG.log(Level.SEVERE, "Jump Out on Error");
+                            break;
+                        }
                     } catch (Throwable ex) {
-                        onError(ex);
+                        onError(ex, testStep);
+                        if (testStep.getJumperState() == TestStep.JUMPER_STATE.JUMP_OUT_ON_FAILURE) {
+                            LOG.log(Level.SEVERE, "Jump Out on Error");
+                            break;
+                        }
                     }
                     currStep = checkForEndLoop(testStep, currStep);
+
+                    if (testStep.getJumperState() == TestStep.JUMPER_STATE.JUMP_OUT_ON_SUCCESS) {
+                        LOG.log(Level.SEVERE, "Jump Out on Success");
+                        break;
+                    }
                 }
             }
         }

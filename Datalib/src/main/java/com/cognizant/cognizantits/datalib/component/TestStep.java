@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.apache.commons.csv.CSVRecord;
 
 /**
@@ -32,11 +35,11 @@ public class TestStep {
 
     public enum HEADERS {
 
-        Step(0), ObjectName(1), Description(2), Action(3), Input(4), Condition(5), Reference(6);
+        Step(0), ObjectName(1), Description(2), Action(3), Input(4), Condition(5), Reference(6), JumperState(7), Chain(8), IterationMode(9);
 
         private final int index;
 
-        private HEADERS(int index) {
+        HEADERS(int index) {
             this.index = index;
         }
 
@@ -56,6 +59,52 @@ public class TestStep {
             return HEADERS.values().length;
         }
 
+    }
+
+    public enum JUMPER_STATE {
+        NONE(""), JUMP_OUT_ON_FAILURE("JOF"), JUMP_OUT_ON_SUCCESS("JOS");
+
+        private final String code;
+        private JUMPER_STATE(String code) {
+            this.code = code;
+        }
+
+        @Override
+        public String toString() {
+            return this.code;
+        }
+
+        public static JUMPER_STATE fromString(String val) {
+            for (JUMPER_STATE tmp : JUMPER_STATE.values()) {
+                if (tmp.code.equalsIgnoreCase(val)) {
+                    return tmp;
+                }
+            }
+            return null;
+        }
+    }
+
+    public enum ITERATION_MODE {
+        INHERIT(""), CONTINUE_ON_ERROR("COE"), BREAK_ON_ERROR("BOE");
+
+        private final String code;
+        private ITERATION_MODE(String code) {
+            this.code = code;
+        }
+
+        @Override
+        public String toString() {
+            return this.code;
+        }
+
+        public static ITERATION_MODE fromString(String val) {
+            for (ITERATION_MODE tmp : ITERATION_MODE.values()) {
+                if (tmp.code.equalsIgnoreCase(val)) {
+                    return tmp;
+                }
+            }
+            return null;
+        }
     }
 
     private final TestCase testcase;
@@ -141,6 +190,24 @@ public class TestStep {
 
     public TestStep setDescription(String description) {
         stepDetails.set(HEADERS.Description.getIndex(), description);
+        return this;
+    }
+
+    public JUMPER_STATE getJumperState() {
+        return JUMPER_STATE.fromString(stepDetails.get(HEADERS.JumperState.getIndex()));
+    }
+
+    public TestStep setJumperState(JUMPER_STATE state) {
+        stepDetails.set(HEADERS.JumperState.getIndex(), state.toString());
+        return this;
+    }
+
+    public ITERATION_MODE getIterationMode() {
+        return ITERATION_MODE.fromString(stepDetails.get(HEADERS.IterationMode.getIndex()));
+    }
+
+    public TestStep setIterationMode(ITERATION_MODE mode) {
+        stepDetails.set(HEADERS.IterationMode.getIndex(), mode.toString());
         return this;
     }
 

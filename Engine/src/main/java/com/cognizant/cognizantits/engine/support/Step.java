@@ -30,6 +30,8 @@ public class Step {
     public String Reference;
     public boolean BreakPoint = false;
     public String Description;
+    public TestStep.JUMPER_STATE JumperState = TestStep.JUMPER_STATE.NONE;
+    public TestStep.ITERATION_MODE IterationMode = TestStep.ITERATION_MODE.INHERIT;
 
     private int subIter = 1;
     private TestCaseRunner runner;
@@ -53,6 +55,8 @@ public class Step {
             StepNum = Integer.parseInt(ts.getTag().replaceAll("[^0-9]", ""));
         }
         BreakPoint = ts.hasBreakPoint();
+        JumperState = ts.getJumperState();
+        IterationMode = ts.getIterationMode();
     }
 
     public Step printStep() {
@@ -152,6 +156,8 @@ public class Step {
         s.setInput(Input);
         s.setDescription(Description);
         s.setObject(ObjectName);
+        s.setJumperState(JumperState);
+        s.setIterationMode(IterationMode);
         return s;
     }
 
