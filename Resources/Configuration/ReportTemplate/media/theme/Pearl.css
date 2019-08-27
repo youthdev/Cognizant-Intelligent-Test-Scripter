@@ -34,12 +34,6 @@ thead{
 .tesetDetails.heading table thead tr{
     background: #667B95;
 }
-thead input{
-    border-bottom-left-radius: 5px;
-    border-top-right-radius: 5px;
-    border-top-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-}
 .exe.table thead  { 			
     border-spacing: 1px;  font-size: 14px ;
     background: #667B95;   ;

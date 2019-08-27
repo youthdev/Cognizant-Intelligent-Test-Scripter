@@ -30,12 +30,6 @@ thead{
     background: #205081;    //Test Details table header
       font-size: 12px;
 }
-thead input{
-    border-bottom-left-radius: 5px;
-    border-top-right-radius: 5px;
-    border-top-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-}
 .tesetDetails.heading table thead tr{
     background: #205081;
 }
